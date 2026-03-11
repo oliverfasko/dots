@@ -10,3 +10,5 @@
 
 **color in terminal (grep, cat, manpages...)**: bat - https://github.com/sharkdp/bat
 
+**other**:fzf, 
+

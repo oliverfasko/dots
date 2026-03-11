@@ -16,15 +16,20 @@ export MANPAGER="bat -plman"
 # aliases
 alias ..='cd ..'
 alias cd..='cd ..'
+
+alias ls='lsd'
 alias ll='lsd -l'
-alias ls='lsd -A'
-alias la='lsd -la'
+alias la='lsd -A'
+alias lla='lsd -lA'
 
 alias update='yay -Syu'
-
 
 alias cat='bat'
 alias grep='batgrep'
 
+alias v="nvim"
+alias vs='nvim $(fzf -m --preview="bat --color=always {}")'
+
 fastfetch
+echo ""
 source ~/.color

@@ -15,7 +15,7 @@ return {
 		},
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "basedpyright", "lua_ls" },
+				ensure_installed = { "basedpyright", "lua_ls", "clangd"},
 			})
 		end,
 	},
@@ -29,6 +29,8 @@ return {
 					"black",
 					"isort",
 					"ruff",
+					"shellcheck",
+					"shfmt",
 				},
 			})
 		end,
@@ -71,6 +73,30 @@ return {
 				},
 			})
 			vim.lsp.enable("basedpyright")
+
+			vim.lsp.config("clangd", {
+				cmd = { "clangd" },
+				filetypes = { "c", "cpp" },
+				root_markers = {
+					"compile_commands.json",
+					"compile_flags.txt",
+					".git",
+				},
+			})
+
+			vim.lsp.enable("clangd")
+
+			vim.lsp.config("bashls", {
+				cmd = { "bash-language-server", "start" },
+				filetypes = { "sh", "bash" },
+				root_markers = { ".git" },
+				settings = {
+					bashIde = {
+						globPattern = "*@(.sh|.inc|.bash|.command)",
+					},
+				},
+			})
+			vim.lsp.enable("bashls")
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})

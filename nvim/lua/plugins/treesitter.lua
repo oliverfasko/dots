@@ -21,6 +21,8 @@ return {
 				"dockerfile",
 				"gitignore",
 				"query",
+        "c",
+        "cpp",
 			},
 		})
     

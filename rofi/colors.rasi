@@ -1,0 +1,47 @@
+
+* {
+
+    highlight: bold italic;
+    scrollbar: false;
+
+
+    bg-color-0:     #32302f;
+    bg-color-1:          #3c3836;
+    select-color:          #665C54;
+    text-selected:          #EBDBB2;
+    text-main:          #EBDBB2;
+    dark-red:     #cc231c;
+    light-red:    #fb4833;
+    dark-yellow:  #d79920;
+    light-yellow: #fabc2e;
+    dark-gray:         #D5C4A1;
+    
+
+    background:                  @bg-color-0;
+    background-color:            @background;
+    foreground:                  @text-main;
+    border-color:                @dark-gray;
+    separatorcolor:              @border-color;
+    scrollbar-handle:            @border-color;
+
+    normal-background:           @background;
+    normal-foreground:           @foreground;
+    alternate-normal-background: @bg-color-1;
+    alternate-normal-foreground: @foreground;
+    selected-normal-background:  @select-color;
+    selected-normal-foreground:  @text-selected;
+
+    active-background:           @dark-yellow;
+    active-foreground:           @background;
+    alternate-active-background: @active-background;
+    alternate-active-foreground: @active-foreground;
+    selected-active-background:  @light-yellow;
+    selected-active-foreground:  @active-foreground;
+
+    urgent-background:           @dark-red;
+    urgent-foreground:           @background;
+    alternate-urgent-background: @urgent-background;
+    alternate-urgent-foreground: @urgent-foreground;
+    selected-urgent-background:  @light-red;
+    selected-urgent-foreground:  @urgent-foreground;
+}

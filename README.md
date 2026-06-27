@@ -51,5 +51,7 @@ Vim - vscodevim
 
 **color in terminal (grep, cat, manpages...)**: bat - https://github.com/sharkdp/bat
 
+**wallpapers**: https://www.rawpixel.com/board/https://www.rawpixel.com/board/1370820/camille-pissarro-public-domain-art-impressionism-high-resolution-art
+
 **other**:fzf 
 

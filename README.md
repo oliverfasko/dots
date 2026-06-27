@@ -1,6 +1,7 @@
 # dots and stuff
 
 <br>
+
 ## General:
 
 **WM**: i3 + xfce4
@@ -10,6 +11,7 @@
 **Application menu**: rofi
 
 <br>
+
 ## Terminal:
 **terminal**: kitty 
 
@@ -40,6 +42,7 @@ Ruff - Astral Software
 Vim - vscodevim
 
 <br>
+
 ## Other:
 
 **fetch**: fastfetch

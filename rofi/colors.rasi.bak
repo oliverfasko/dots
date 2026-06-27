@@ -1,0 +1,24 @@
+    border-colour:               #83A598FF;
+    handle-colour:               #83A598FF;
+    background-colour:           #282828FF;
+    foreground-colour:           #EBDBB2FF;
+    alternate-background:        #353535FF;
+    normal-background:           #282828FF;
+    normal-foreground:           #EBDBB2FF;
+    urgent-background:           #FB4934FF;
+    urgent-foreground:           #282828FF;
+    active-background:           #B8BB26FF;
+    active-foreground:           #282828FF;
+    selected-normal-background:  #83A598FF;
+    selected-normal-foreground:  #282828FF;
+    selected-urgent-background:  #B8BB26FF;
+    selected-urgent-foreground:  #282828FF;
+    selected-active-background:  #FB4934FF;
+    selected-active-foreground:  #282828FF;
+    alternate-normal-background: #282828FF;
+    alternate-normal-foreground: #EBDBB2FF;
+    alternate-urgent-background: #FB4934FF;
+    alternate-urgent-foreground: #282828FF;
+    alternate-active-background: #B8BB26FF;
+    alternate-active-foreground: #282828FF;
+

@@ -1,0 +1,205 @@
+{
+    // ------------------------
+    // LANGUAGE 
+    // ------------------------
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "workbench.editorAssociations": {},
+    // ------------------------
+    // VIM CORE
+    // ------------------------
+    "vim.foldfix": true,
+    "vim.sneak": true,
+    "vim.sneakUseIgnorecaseAndSmartcase": true,
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+    "vim.smartcase": true,
+    "vim.leader": "<space>",
+    "vim.useCtrlKeys": true,
+    "vim.handleKeys": {
+        "<C-p>": false,
+        "<C-f>": false,
+        "<C-j>": false,
+        "<C-b>": false,
+        "<C-d>": false,
+        "<C-s>": false,
+        "<C-z>": false,
+        "<C-y>": false
+    },
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1
+    },
+    // ------------------------
+    // LEADER SHORTCUTS
+    // ------------------------
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<S-h>"
+            ],
+            "commands": [
+                ":bprevious"
+            ]
+        },
+        {
+            "before": [
+                "<S-l>"
+            ],
+            "commands": [
+                ":bnext"
+            ]
+        },
+        {
+            "before": [
+                "<S-w>"
+            ],
+            "commands": [
+                ":bclose"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "h"
+            ],
+            "after": [],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ] // space f = Ctrl+P
+        },
+        {
+            "before": [
+                "<leader>",
+                "g"
+            ],
+            "commands": [
+                "workbench.action.findInFiles"
+            ] // space g = Ctrl+Shift+F
+        },
+        {
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.showAllEditors"
+            ] // space b = buffers
+        },
+        {
+            "before": [
+                "<leader>",
+                "e"
+            ],
+            "commands": [
+                "workbench.action.toggleSidebarVisibility"
+            ] // space e = file tree
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "a"
+            ],
+            "commands": [
+                "editor.action.quickFix"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        // Move selected lines while staying in visual mode
+        {
+            "before": [
+                "J"
+            ],
+            "commands": [
+                "editor.action.moveLinesDownAction"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.moveLinesUpAction"
+            ]
+        },
+        // toggle comment selection
+        {
+            "before": [
+                "leader",
+                "c"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ]
+        }
+    ],
+    // ------------------------
+    // GENERAL 
+    // ------------------------
+    "editor.lineNumbers": "relative",
+    "editor.largeFileOptimizations": false,
+    "editor.cursorSmoothCaretAnimation": "off",
+    "workbench.list.smoothScrolling": false,
+    "editor.smoothScrolling": false,
+    "extensions.ignoreRecommendations": true,
+    "workbench.activityBar.location": "top",
+    "window.menuBarVisibility": "compact",
+    "window.commandCenter": false,
+    "claudeCode.preferredLocation": "panel",
+    "workbench.sideBar.location": "right",
+    "workbench.activityBar.compact": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "window.density.editorTabHeight": "compact",
+    "workbench.tree.enableStickyScroll": false,
+    "editor.wordWrap": "on",
+    "editor.fontSize": 14,
+    "glassit.alpha": 255,
+    "gitlens.rebaseEditor.ordering": "asc",
+    "workbench.startupEditor": "none",
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.formatOnSave": true,
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+}

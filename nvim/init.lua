@@ -5,5 +5,7 @@ require("keymaps")
 require("pack")
 require("treesitter")
 require("lsp")
+require("debug")
 
-vim.cmd.colorscheme("moonfly")
+require("gruvbox").setup({ contrast = "hard" })
+vim.cmd.colorscheme("gruvbox")

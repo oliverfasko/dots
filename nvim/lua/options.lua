@@ -8,13 +8,15 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.smartindent = true
 vim.opt.inccommand = "split"
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.laststatus = 3
@@ -35,7 +37,6 @@ vim.opt.colorcolumn = "0"
 vim.opt.signcolumn = "yes"
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Highlight when yanking (copying) text",
     callback = function()
         vim.hl.on_yank()
     end,

@@ -1,0 +1,14 @@
+#! /bin/bash
+
+set $mainText #EBDBB2
+set $inacText #EBDBB2
+set $inficator #32302f
+
+set $main #9e412f
+set $inactive #473939
+
+
+# class                 border     backgr.     text       indicator     child_border
+client.focused          $main      $main       $mainText  $main         $main
+client.unfocused        $inactive  $inactive   $inacText  $inactive     $inactive
+client.focused_inactive $inactive  $inactive   $inacText  $inactive     $inactive

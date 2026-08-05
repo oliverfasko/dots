@@ -1,57 +1,33 @@
-# dots and stuff
+## Dots
 
-<br>
+my .files
 
-## General:
+## Desktop
 
-**WM**: i3 + xfce4
+- **Window manager**: i3 + xfce4 
+- **Compositor**: picom
+- **Launcher**: rofi 
+- **Wallpaper**: nitrogen
+- **Screenshots**: flameshot 
 
-**Compositor**: picom
+## Terminal
 
-**Application menu**: rofi
+- **Emulator**: kitty (default settings)
 
-<br>
+## Neovim
 
-## Terminal:
-**terminal**: kitty 
+Plugins managed with  `vim.pack` (Neovim 0.12+)
 
-**theme**: whatever i feel like at the moment but mostly Gruvbox adjecent 
-<br>
+## Other tools 
 
-## VSCode:
-(born to vim forced to VSCode)
+- **fetch**: [fastfetch](https://github.com/fastfetch-cli/fastfetch)
+- **ls**: [lsd](https://github.com/lsd-rs/lsd)
+- **cat / grep**: [bat](https://github.com/sharkdp/bat) and `batgrep`
+- **fuzzy finder**: [fzf](https://github.com/junegunn/fzf)
 
-**theme**: whatever i feel like at the moment but mostly Gruvbox adjecent 
+## Wallpapers
+Mainly from:
 
-**extensions**:
+https://wallhaven.cc/tag/1
 
-Code Spell Check - Street Side Software
-
-GitLens - GitKraken
-
-GlassIt-VSC
-
-Material Icon Theme - Philipp Kief
-
-Prettify JSON - Mohsen Azimi
-
-Python suite - Microsoft
-
-Ruff - Astral Software
-
-Vim - vscodevim
-
-<br>
-
-## Other:
-
-**fetch**: fastfetch
-
-**ls**: lsd - https://github.com/lsd-rs/lsd
-
-**color in terminal (grep, cat, manpages...)**: bat - https://github.com/sharkdp/bat
-
-**wallpapers**: https://www.rawpixel.com/board/https://www.rawpixel.com/board/1370820/camille-pissarro-public-domain-art-impressionism-high-resolution-art
-
-**other**:fzf 
-
+https://www.rawpixel.com/board/1370820/camille-pissarro-public-domain-art-impressionism-high-resolution-art

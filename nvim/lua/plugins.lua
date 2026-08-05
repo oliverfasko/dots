@@ -28,6 +28,7 @@ vim.pack.add({
   -- git
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/NeogitOrg/neogit",
+  "https://github.com/sindrets/diffview.nvim",
 
   -- formatting
   "https://github.com/stevearc/conform.nvim",
@@ -174,6 +175,11 @@ vim.keymap.set("n", "<leader>gB", "<cmd>Gitsigns blame<cr>", { desc = "Blame pop
 
 require("neogit").setup({})
 vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Open Neogit" })
+
+require("diffview").setup({})
+vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "File history (timeline)" })
+vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "Repo history" })
+vim.keymap.set("v", "<leader>gh", ":DiffviewFileHistory<cr>", { desc = "File history for selection" })
 
 ------------------------------------------------------------
 -- Formatting

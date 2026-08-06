@@ -46,6 +46,9 @@ vim.pack.add({
   -- motion (vim.sneak parity, nothing else here covers 2-char jump)
   "https://github.com/folke/flash.nvim",
 
+  -- file bookmarks
+  { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
+
   --color scheme
   "https://github.com/vague-theme/vague.nvim"
 })
@@ -94,7 +97,7 @@ vim.lsp.config.marksman = {
   root_markers = { ".git" },
 }
 
--- JS (rare use, kept minimal)
+-- JS 
 vim.lsp.config.vtsls = {
   cmd = { "vtsls", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
@@ -107,21 +110,17 @@ vim.lsp.enable({ "ruff", "basedpyright", "jsonls", "marksman", "vtsls" })
 -- ]d / [d jump keymaps).
 vim.diagnostic.config({
   underline = false,
-  virtual_text = false,
+   virtual_text = {
+    severity = vim.diagnostic.severity.ERROR,
+    prefix = '■ ', 
+    source = 'if_many', 
+  },
   signs = false,
   severity_sort = true,
 })
 
-------------------------------------------------------------
--- Completion
-------------------------------------------------------------
--- v2's native fuzzy matcher needs either a Rust toolchain (to build) or a
--- tagged release (to download a prebuilt binary) -- neither is available
--- here (no cargo, and v2 hasn't cut a release tag yet on main). Explicitly
--- use the bundled pure-Lua matcher instead of "prefer_rust_with_warning",
--- so it's a deliberate, warning-free choice rather than a silent fallback.
 require("blink.cmp").setup({
-  keymap = { preset = "default" },
+  keymap = { preset = "enter" },
   fuzzy = { implementation = "lua" },
   sources = {
     default = { "lsp", "path", "buffer" },
@@ -219,3 +218,17 @@ require("mini.statusline").setup({})
 -- Motion: s / S sneak-style 2-char jump (vim.sneak: true)
 ------------------------------------------------------------
 require("flash").setup()
+
+------------------------------------------------------------
+-- Harpoon
+---------------------------------------------------------------
+local harpoon = require("harpoon")
+harpoon:setup()
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon: add file" })
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: quick menu" })
+
+vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Harpoon: file 1" })
+vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Harpoon: file 2" })
+vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Harpoon: file 3" })
+vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Harpoon: file 4" })

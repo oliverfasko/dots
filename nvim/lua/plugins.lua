@@ -9,9 +9,8 @@ vim.pack.add({
   -- LSP / completion
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
-  "https://github.com/saghen/blink.lib", -- required by blink.cmp v2 (main)
-  "https://github.com/saghen/blink.cmp",
   "https://github.com/b0o/SchemaStore.nvim",
+  { src = "https://github.com/Saghen/blink.cmp", version = vim.version.range("1.0") },
 
   -- treesitter
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
@@ -43,9 +42,6 @@ vim.pack.add({
   "https://github.com/folke/which-key.nvim",
   "https://github.com/nvim-mini/mini.statusline",
 
-  -- motion (vim.sneak parity, nothing else here covers 2-char jump)
-  "https://github.com/folke/flash.nvim",
-
   -- file bookmarks
   { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
 
@@ -54,28 +50,56 @@ vim.pack.add({
 })
 
 ------------------------------------------------------------
--- Mason (just for installing LSP/tool binaries)
+-- Mason
 ------------------------------------------------------------
 require("mason").setup()
 
 ------------------------------------------------------------
+-- Completion
+------------------------------------------------------------
+require("blink.cmp").setup({
+  -- <C-space>: trigger/open docs, <CR>: accept, <Tab>/<S-Tab>: next/prev,
+  -- <C-n>/<C-p>: next/prev, <C-e>: hide, <C-k>: toggle signature help.
+  keymap = { preset = "default" },
+  appearance = { nerd_font_variant = "mono" },
+  completion = {
+    documentation = { auto_show = true, auto_show_delay_ms = 200 },
+    menu = { border = "single" },
+  },
+  signature = { enabled = true, window = { border = "single" } },
+  sources = { default = { "lsp", "path", "snippets", "buffer" } },
+  fuzzy = { implementation = "prefer_rust_with_warning" },
+})
+
+vim.lsp.config("*", {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
+})
+
+------------------------------------------------------------
 -- LSP
 ------------------------------------------------------------
--- Ruff: linting + import sorting. Reads pyproject.toml automatically.
+-- Ruff
 vim.lsp.config.ruff = {
   cmd = { "ruff", "server" },
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "ruff.toml", ".git" },
 }
 
--- basedpyright: type checking (ruff doesn't do this)
+-- basedpyright
 vim.lsp.config.basedpyright = {
   cmd = { "basedpyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_markers = { "pyproject.toml", ".git" },
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "basic",
+      },
+    },
+  },
 }
 
--- JSON with schema validation
+-- JSON 
 vim.lsp.config.jsonls = {
   cmd = { "vscode-json-language-server", "--stdio" },
   filetypes = { "json", "jsonc" },
@@ -115,16 +139,16 @@ vim.diagnostic.config({
     prefix = '■ ', 
     source = 'if_many', 
   },
-  signs = false,
+  signs = { 
+        active = true,
+        text = {
+          [vim.diagnostic.severity.ERROR] = "E",
+          [vim.diagnostic.severity.WARN]  = "W",
+          [vim.diagnostic.severity.HINT]  = "H",
+          [vim.diagnostic.severity.INFO]  = "I",
+        },
+    },
   severity_sort = true,
-})
-
-require("blink.cmp").setup({
-  keymap = { preset = "enter" },
-  fuzzy = { implementation = "lua" },
-  sources = {
-    default = { "lsp", "path", "buffer" },
-  },
 })
 
 ------------------------------------------------------------
@@ -164,7 +188,7 @@ require("gitsigns").setup({
   current_line_blame = true,
   current_line_blame_opts = {
     virt_text = true,
-    virt_text_pos = "eol", -- blame shown at end of line
+    virt_text_pos = "eol", 
     delay = 300,
   },
   current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
@@ -190,7 +214,6 @@ require("conform").setup({
     javascriptreact = { "prettier" },
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
-    json = { "prettier" },
     markdown = { "prettier" },
   },
   format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
@@ -213,11 +236,6 @@ vim.keymap.set("v", "<leader>cs", "<cmd>ClaudeCodeSend<cr>", { desc = "Send sele
 ------------------------------------------------------------
 require("which-key").setup({})
 require("mini.statusline").setup({})
-
-------------------------------------------------------------
--- Motion: s / S sneak-style 2-char jump (vim.sneak: true)
-------------------------------------------------------------
-require("flash").setup()
 
 ------------------------------------------------------------
 -- Harpoon

@@ -38,15 +38,21 @@ vim.pack.add({
   -- claude
   "https://github.com/coder/claudecode.nvim",
 
-  -- qol
-  "https://github.com/folke/which-key.nvim",
+  -- mini
   "https://github.com/nvim-mini/mini.statusline",
+  "https://github.com/nvim-mini/mini.pairs",
+  "https://github.com/nvim-mini/mini.hipatterns",
+  "https://github.com/nvim-mini/mini.indentscope",
+  'https://github.com/nvim-mini/mini.icons',
 
   -- file bookmarks
   { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
 
   --color scheme
-  "https://github.com/vague-theme/vague.nvim"
+  "https://github.com/vague-theme/vague.nvim",
+
+  -- markdown
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim'
 })
 
 ------------------------------------------------------------
@@ -68,9 +74,11 @@ require("blink.cmp").setup({
   },
   signature = { enabled = true, window = { border = "single" } },
   sources = { default = { "lsp", "path", "snippets", "buffer" } },
+  -- Prebuilt binary downloaded automatically; no Rust toolchain needed.
   fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
+-- Give every LSP server blink.cmp's (richer) completion capabilities.
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
@@ -232,21 +240,31 @@ vim.keymap.set("n", "<leader>cc", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude
 vim.keymap.set("v", "<leader>cs", "<cmd>ClaudeCodeSend<cr>", { desc = "Send selection to Claude" })
 
 ------------------------------------------------------------
--- QoL
+-- mini 
 ------------------------------------------------------------
-require("which-key").setup({})
 require("mini.statusline").setup({})
-
+require('mini.pairs').setup()
+require('mini.hipatterns').setup()
+require('mini.indentscope').gen_animation.none()
+require('mini.indentscope').setup({
+ draw = { animation = function() return 0 end }})
+require('mini.indentscope').gen_animation.none()
 ------------------------------------------------------------
 -- Harpoon
 ---------------------------------------------------------------
 local harpoon = require("harpoon")
 harpoon:setup()
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon: add file" })
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: quick menu" })
+-- Kept off <leader>: leader is Space, and keyd maps a held Space to Meta (Mod4),
+-- which is i3's $mod -- so <leader>1..4 races i3's workspace switching.
+-- Alt is a free modifier here (i3 only binds Alt+Tab).
+vim.keymap.set("n", "<M-m>", function() harpoon:list():add() end, { desc = "Harpoon: mark file" })
+vim.keymap.set("n", "<M-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: quick menu" })
 
-vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Harpoon: file 1" })
-vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Harpoon: file 2" })
-vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Harpoon: file 3" })
-vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Harpoon: file 4" })
+vim.keymap.set("n", "<M-1>", function() harpoon:list():select(1) end, { desc = "Harpoon: file 1" })
+vim.keymap.set("n", "<M-2>", function() harpoon:list():select(2) end, { desc = "Harpoon: file 2" })
+vim.keymap.set("n", "<M-3>", function() harpoon:list():select(3) end, { desc = "Harpoon: file 3" })
+vim.keymap.set("n", "<M-4>", function() harpoon:list():select(4) end, { desc = "Harpoon: file 4" })
+
+vim.keymap.set("n", "<M-[>", function() harpoon:list():prev() end, { desc = "Harpoon: prev" })
+vim.keymap.set("n", "<M-]>", function() harpoon:list():next() end, { desc = "Harpoon: next" })

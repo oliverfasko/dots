@@ -78,7 +78,6 @@ require("blink.cmp").setup({
   fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
--- Give every LSP server blink.cmp's (richer) completion capabilities.
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
@@ -242,7 +241,41 @@ vim.keymap.set("v", "<leader>cs", "<cmd>ClaudeCodeSend<cr>", { desc = "Send sele
 ------------------------------------------------------------
 -- mini 
 ------------------------------------------------------------
-require("mini.statusline").setup({})
+local function diag_counts()
+  if not vim.diagnostic.is_enabled({ bufnr = 0 }) then return "" end
+  local counts = vim.diagnostic.count(0)
+  local n_err = counts[vim.diagnostic.severity.ERROR] or 0
+  local n_warn = counts[vim.diagnostic.severity.WARN] or 0
+  local back = "%#MiniStatuslineDevinfo#"
+  return string.format("%%#DiagnosticError#E%d%s %%#DiagnosticWarn#W%d%s", n_err, back, n_warn, back)
+end
+
+require("mini.statusline").setup({
+  content = {
+    active = function()
+      local MiniStatusline = require("mini.statusline")
+      local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+      local git           = MiniStatusline.section_git({ trunc_width = 40 })
+      local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+      local diagnostics   = diag_counts()
+      local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+      local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+      local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+      local location      = MiniStatusline.section_location({ trunc_width = 75 })
+      local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+      return MiniStatusline.combine_groups({
+        { hl = mode_hl,                  strings = { mode } },
+        { hl = "MiniStatuslineDevinfo",  strings = { git, diff, diagnostics, lsp } },
+        "%<", 
+        { hl = "MiniStatuslineFilename", strings = { filename } },
+        "%=", 
+        { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+        { hl = mode_hl,                  strings = { search, location } },
+      })
+    end,
+  },
+})
 require('mini.pairs').setup()
 require('mini.hipatterns').setup()
 require('mini.indentscope').gen_animation.none()
@@ -255,9 +288,6 @@ require('mini.indentscope').gen_animation.none()
 local harpoon = require("harpoon")
 harpoon:setup()
 
--- Kept off <leader>: leader is Space, and keyd maps a held Space to Meta (Mod4),
--- which is i3's $mod -- so <leader>1..4 races i3's workspace switching.
--- Alt is a free modifier here (i3 only binds Alt+Tab).
 vim.keymap.set("n", "<M-m>", function() harpoon:list():add() end, { desc = "Harpoon: mark file" })
 vim.keymap.set("n", "<M-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: quick menu" })
 

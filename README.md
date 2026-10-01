@@ -1,7 +1,3 @@
-## Dots
-
-my .files
-
 ## Desktop
 
 - **Window manager**: i3 + xfce4 
@@ -12,15 +8,18 @@ my .files
 
 ## Terminal
 
-- **Emulator**: kitty (default settings)
+- **Emulator**: kitty 
 
 ## Neovim
 
 Plugins managed with  `vim.pack` (Neovim 0.12+)
 
+- `nvim/` — full config (LSP, formatting, DAP, Jupyter notebooks)
+- `nvim-base/` — generic base without LSP/language-specific setup
+
 ## Other tools 
 
-- **fetch**: [fastfetch](https://github.com/fastfetch-cli/fastfetch)
+- **fetch**: [fetchit](https://codeberg.org/nzuum/fetchit)
 - **ls**: [lsd](https://github.com/lsd-rs/lsd)
 - **cat / grep**: [bat](https://github.com/sharkdp/bat) and `batgrep`
 - **fuzzy finder**: [fzf](https://github.com/junegunn/fzf)

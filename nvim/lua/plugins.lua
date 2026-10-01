@@ -52,7 +52,13 @@ vim.pack.add({
   "https://github.com/vague-theme/vague.nvim",
 
   -- markdown
-  'https://github.com/MeanderingProgrammer/render-markdown.nvim'
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+
+  -- debugging (DAP)
+  "https://github.com/mfussenegger/nvim-dap",
+  "https://github.com/rcarriga/nvim-dap-ui",
+  "https://github.com/nvim-neotest/nvim-nio",
+  "https://github.com/theHamsta/nvim-dap-virtual-text",
 })
 
 ------------------------------------------------------------
@@ -135,7 +141,22 @@ vim.lsp.config.vtsls = {
   root_markers = { "package.json", ".git" },
 }
 
-vim.lsp.enable({ "ruff", "basedpyright", "jsonls", "marksman", "vtsls" })
+-- C / C++
+vim.lsp.config.clangd = {
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=never",
+  },
+  filetypes = { "c", "cpp", "objc", "objcpp" },
+  -- compile_commands.json (e.g. via `bear -- make`) or a plain compile_flags.txt
+  -- both work as root markers; falls back to .git if neither exists yet.
+  root_markers = { ".clangd", "compile_commands.json", "compile_flags.txt", ".git" },
+}
+
+vim.lsp.enable({ "ruff", "basedpyright", "jsonls", "marksman", "vtsls", "clangd" })
 
 -- <leader>dd / <leader>dl / <leader>dw in keybinds.lua, or the built-in
 -- ]d / [d jump keymaps).
@@ -162,7 +183,7 @@ vim.diagnostic.config({
 -- Treesitter
 ------------------------------------------------------------
 require("nvim-treesitter").setup({
-  ensure_installed = { "python", "json", "javascript", "markdown", "markdown_inline", "lua" },
+  ensure_installed = { "python", "json", "javascript", "markdown", "markdown_inline", "lua", "c", "cpp", "make" },
   highlight = { enable = true },
 })
 require("treesitter-context").setup()
@@ -222,6 +243,18 @@ require("conform").setup({
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
     markdown = { "prettier" },
+    c = { "clang_format" },
+    cpp = { "clang_format" },
+  },
+  formatters = {
+    -- only used when the project has no .clang-format; matches the course's 4-space style
+    clang_format = {
+      prepend_args = function(_, ctx)
+        local cfg = vim.fs.find({ ".clang-format", "_clang-format" }, { upward = true, path = ctx.dirname })
+        if #cfg > 0 then return {} end
+        return { "--style={BasedOnStyle: LLVM, IndentWidth: 4}" }
+      end,
+    },
   },
   format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 })
@@ -298,3 +331,65 @@ vim.keymap.set("n", "<M-4>", function() harpoon:list():select(4) end, { desc = "
 
 vim.keymap.set("n", "<M-[>", function() harpoon:list():prev() end, { desc = "Harpoon: prev" })
 vim.keymap.set("n", "<M-]>", function() harpoon:list():next() end, { desc = "Harpoon: next" })
+
+------------------------------------------------------------
+-- DAP (debugging) 
+-- ------------------------------------------------------------
+local dap = require("dap")
+
+dap.adapters.cppdbg = {
+  id = "cppdbg",
+  type = "executable",
+  command = vim.fn.stdpath("data") .. "/mason/bin/OpenDebugAD7",
+}
+
+local gdb_common = {
+  type = "cppdbg",
+  MIMode = "gdb",
+  miDebuggerPath = vim.fn.exepath("gdb"),
+  setupCommands = {
+    { description = "Enable pretty-printing for gdb", text = "-enable-pretty-printing", ignoreFailures = true },
+  },
+}
+
+dap.configurations.c = {
+  vim.tbl_extend("force", gdb_common, {
+    name = "(gdb) Launch main",
+    request = "launch",
+    program = "${workspaceFolder}/main.out",
+    args = {},
+    stopAtEntry = false,
+    cwd = "${fileDirname}",
+    externalConsole = false,
+  }),
+  vim.tbl_extend("force", gdb_common, {
+    name = "(gdb) Launch other executable",
+    request = "launch",
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    end,
+    stopAtEntry = false,
+    cwd = "${workspaceFolder}",
+    externalConsole = false,
+  }),
+  vim.tbl_extend("force", gdb_common, {
+    name = "(gdb) Attach to process",
+    request = "attach",
+    processId = require("dap.utils").pick_process,
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    end,
+  }),
+}
+dap.configurations.cpp = dap.configurations.c
+
+require("dapui").setup()
+require("nvim-dap-virtual-text").setup()
+
+-- auto open/close the UI around a debug session
+dap.listeners.after.event_initialized["dapui_config"] = function() require("dapui").open() end
+dap.listeners.before.event_terminated["dapui_config"] = function() require("dapui").close() end
+dap.listeners.before.event_exited["dapui_config"] = function() require("dapui").close() end
+
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "", numhl = "" })
+vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticWarn", linehl = "DapStoppedLine", numhl = "" })

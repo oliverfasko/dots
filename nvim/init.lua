@@ -21,5 +21,6 @@ vim.opt.softtabstop = 4    -- width when pressing Tab/Backspace
 
 require("plugins")
 require("keybinds")
+require("notebooks")
 
 vim.cmd.colorscheme('vague')
